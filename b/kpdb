@@ -54,5 +54,6 @@ if ! cmp -s -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_LOCAL_FILE_NAME~" ; then
 
 else
   _not "Not changed: $KPDB_LOCAL_FILE_NAME"
+  rm -f -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_LOCAL_FILE_NAME~"
 
 fi

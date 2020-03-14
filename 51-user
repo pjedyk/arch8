@@ -159,7 +159,7 @@ xvseti  /xfce4-power-manager/show-panel-label         1
 # xfce4-screensaver
 xset_channel=xfce4-screensaver
 
-xvsetb  /saver/idle-activation/delay  1440
+xvseti  /saver/idle-activation/delay  1440
 
 
 # xfce4-panel
@@ -177,9 +177,10 @@ xvsets  /plugins/plugin-3   pager
 xvsets  /plugins/plugin-4   systray
 xvsets  /plugins/plugin-5   xfce4-clipman-plugin
 xvsets  /plugins/plugin-6   screenshooter
-xvsets  /plugins/plugin-7   clock
-xvsets  /plugins/plugin-8   power-manager-plugin
-xvsets  /plugins/plugin-9   actions
+xvsets  /plugins/plugin-7   pulseaudio
+xvsets  /plugins/plugin-8   clock
+xvsets  /plugins/plugin-9   power-manager-plugin
+xvsets  /plugins/plugin-10  actions
 
 xvseti  /plugins/plugin-1/grouping          0
 xvseti  /plugins/plugin-1/sort-order        4
@@ -188,12 +189,14 @@ xvsetb  /plugins/plugin-1/show-wireframes   true
 xvsetb  /plugins/plugin-1/window-scrolling  false
 xvsetb  /plugins/plugin-2/expand            true
 xvseti  /plugins/plugin-2/style             0
-xvsets  /plugins/plugin-7/tooltip-format    '%Y-%m-%d %H:%M:%S'
-xvsets  /plugins/plugin-7/digital-format    '%a %d %h, %H:%M:%S'
-xvseti  /plugins/plugin-9/appearance        0
-xvarrs  /plugins/plugin-9/items             \
+xvsets  /plugins/plugin-8/tooltip-format    '%Y-%m-%d %H:%M:%S'
+xvsets  /plugins/plugin-8/digital-format    '%a %d %h, %H:%M:%S'
+xvseti  /plugins/plugin-10/appearance       0
+xvarrs  /plugins/plugin-10/items            \
     -lock-screen -switch-user -separator -suspend -hibernae -hybrid-sleep \
     -separator -shutdown -restart -separator +logout -logout-dialog
+
+xvsetb  /plugins/clipman/tweaks/popup-at-pointer  true
 
 xvarri  /panels   1 2
 
@@ -209,7 +212,7 @@ xvsetb  /panels/panel-2/position-locked     true
 xvseti  /panels/panel-2/autohide-behavior   1
 xvseti  /panels/panel-2/length              10
 xvseti  /panels/panel-2/size                24
-xvarri  /panels/panel-2/plugin-ids          5 6 7 8 9
+xvarri  /panels/panel-2/plugin-ids          5 6 7 8 9 10
 
 nohup xfce4-panel <&- &>/dev/null &
 disown -hr
