@@ -1,0 +1,16 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+lo="$( $sudo losetup -ln -j"$T/image.bin" -ONAME )"
+printf -- 'lo=%q\n' "$lo"
+
+$sudo swapoff -- "$lo"p2 || :
+$sudo umount -- "$T/m/boot" || :
+$sudo umount -- "$T/m/esp" || :
+$sudo umount -- "$T/m" || :
+$sudo rmdir -- "$T/m" || :
+$sudo losetup -d "$lo" || :
+
+[[ ! -e "$T/m" ]]

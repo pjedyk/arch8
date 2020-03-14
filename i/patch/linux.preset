@@ -1,0 +1,17 @@
+--- etc/mkinitcpio.d/linux.preset
++++ etc/mkinitcpio.d/linux.preset
+@@ -0,1 +0,1 @@
+-PRESETS=('default' 'fallback')
++PRESETS=('default')
+@@ -0,4 +0,0 @@
+-#default_config="/etc/mkinitcpio.conf"
+-default_image="/boot/initramfs-linux.img"
+-#default_options=""
+-
+@@ -0,3 +0,3 @@
+-#fallback_config="/etc/mkinitcpio.conf"
+-fallback_image="/boot/initramfs-linux-fallback.img"
+-fallback_options="-S autodetect"
++#default_config="/etc/mkinitcpio.conf"
++default_image="/boot/initramfs-linux.img"
++default_options="-S autodetect"

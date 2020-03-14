@@ -1,0 +1,8 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+qemu-system-x86_64 \
+    -enable-kvm -machine q35,accel=kvm -device intel-iommu -cpu host -m 4G \
+    -bios /usr/share/ovmf/x64/OVMF_CODE.fd -drive file="$T/image.qcow2"

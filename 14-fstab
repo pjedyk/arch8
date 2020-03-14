@@ -1,0 +1,8 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+do_restore_su "$T/m/etc/fstab"
+do_chroot genfstab -U / | $sudo tee -a -- "$T/m/etc/fstab"
+$sudo $edit "$T/m/etc/fstab"

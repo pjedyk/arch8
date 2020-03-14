@@ -1,0 +1,45 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+mkdir -p -- ~/.vim/spell ~/.config/htop ~/bin
+
+do_backup_remove ~/.profile
+do_backup_remove ~/.bashrc
+do_backup_remove ~/.vimrc
+do_backup_remove ~/.npmrc
+do_backup_remove ~/.config/htop/htoprc
+
+do_link ~/.profile "$T/i/profile"
+do_link ~/.bashrc "$T/i/bashrc"
+do_link ~/.vimrc "$T/i/vimrc"
+do_link ~/.vim/spell/default.utf-8.add "$T/i/default.utf-8.add"
+do_link ~/.npmrc "$T/i/npmrc"
+do_link ~/.config/htop/htoprc "$T/i/htoprc"
+
+for b in "$T/b/"* ; do
+  do_link ~/bin/"${b##*/}" "$b"
+
+done
+
+if [[ "$UID" -ne 0 ]] ; then
+  dx=(DESKTOP DOWNLOAD TEMPLATES PUBLICSHARE DOCUMENTS MUSIC PICTURES VIDEOS)
+  conf=
+
+  for d in "${dx[@]}" ; do
+    dd="${d,,}" dd="${dd%s}" dd="${dd%share}"
+    mkdir -p -- ~/"$dd"
+    printf -vconf -- '%sXDG_%s_DIR="$HOME/%s"\n' "$conf" "$d" "$dd"
+
+  done
+
+  do_backup_remove ~/.config/user-dirs.dirs
+  printf -- '%s' "$conf" | tee -- ~/.config/user-dirs.dirs
+
+  ssh-keygen -N '' -f ~/.ssh/id_rsa
+
+else
+  passwd
+
+fi

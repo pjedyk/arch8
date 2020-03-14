@@ -1,0 +1,9 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+pv -i0.1 -- "$T/archlinux-bootstrap.tar.gz" \
+| $sudo tar -hxz -C"$T/m" \
+    --anchored --keep-newer-files --exclude=root.x86_64/README \
+    --strip-components=1 --warning=none

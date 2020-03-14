@@ -1,0 +1,28 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+if [[ ! -e "$T/image.bin" ]] ; then
+  touch -- "$T/image.bin"
+  chattr +C -- "$T/image.bin"
+  fallocate -l32G -- "$T/image.bin"
+
+fi
+
+printf -- '%s\n' g \
+    n '' '' +300M t 1 \
+    n '' '' +1G t '' 19 \
+    n '' '' '' \
+    w \
+| fdisk -- "$T/image.bin"
+
+lo="$( $sudo losetup -f --show -- "$T/image.bin" )"
+printf -- 'lo=%q\n' "$lo"
+$sudo partprobe -- "$lo"
+
+$sudo mkfs.vfat -nESP -F32 -- "$lo"p1
+$sudo mkswap -Lswap -- "$lo"p2
+$sudo mkfs.btrfs -f -Lroot -- "$lo"p3
+
+$sudo losetup -d "$lo"

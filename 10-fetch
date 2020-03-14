@@ -1,0 +1,46 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+[[ -e "$T/mirrorlist" ]] ||
+    curl -L 'https://archlinux.org/mirrorlist/?country=all' \
+    >"$T/mirrorlist"
+
+grep -q -- '^[[:blank:]]*Server[[:blank:]]*=' "$T/mirrorlist" ||
+    $edit "$T/mirrorlist"
+
+IFS=$'\n'
+servers=($(
+  grep -- '^[[:blank:]]*Server[[:blank:]]*=' "$T/mirrorlist" \
+  | sed -e's@^[^=]*=[[:blank:]]*@@' -e's@[[:blank:]]*$@@' \
+      -e's@\$repo\([^[:alnum:]_].*\)\?$@iso/latest/@'
+))
+
+printf -- '>> %s\n' "${servers[@]}"
+
+if [[ ! -e "$T/archlinux-bootstrap.tar.gz" ]] ; then
+  for server in "${servers[@]}" ; do
+    curl -L -- "$server/sha1sums.txt" >|"$T/sha1sums.txt" &&
+    files=($(
+      grep -- '-bootstrap-.*\.tar\.gz[[:blank:]]*$' "$T/sha1sums.txt" \
+      | tr -s '[:blank:]' ' '
+    )) || continue
+
+    file="${files[0]#* }"
+
+    if curl -L "$server/$file" >|"$T/$file" ; then
+      if ( cd -- "$T" && sha1sum -c --ignore-missing -- sha1sums.txt ) ; then
+        ln -fnsT -- "$file" "$T/archlinux-bootstrap.tar.gz"
+        exit
+
+      fi
+    fi
+
+    rm -f -- "$file"
+
+  done
+
+  rm -f -- "$T/sha1sums.txt"
+
+fi

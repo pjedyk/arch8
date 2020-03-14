@@ -1,0 +1,12 @@
+[freetype]
+freetype-background-opacity=128
+
+[qt]
+qt-video-autoresize=0
+qt-recentplay=0
+qt-continue=2
+
+[core]
+playlist-tree=0
+hotkeys-y-wheel-mode=-1
+hotkeys-x-wheel-mode=-1

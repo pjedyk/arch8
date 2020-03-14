@@ -1,0 +1,29 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+for p in /proc/*/root ; do
+  r="$( $sudo readlink -- "$p" )" || continue
+
+  if [[ "$r" -ef m ]] ; then
+    p="${p#/proc/}"
+    p="${p%/root}"
+    $sudo kill -15 -- "$p" || continue
+
+    for t in x x x ; do
+      sleep 1
+      $sudo kill -0 -- "$p" || continue 2
+
+    done
+
+    $sudo kill -9 -- "$p"
+
+  fi
+done
+
+$sudo umount \
+    m/run/udev m/run/lvm m/etc/resolv.conf \
+    m/tmp m/run m/dev/shm m/dev/pts m/dev \
+    m/sys/firmware/efi/efivars m/sys m/proc \
+  || true

@@ -1,0 +1,267 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+xset() {
+  xfconf-query -c "$1" -p "$3" -n -t "$2" -s "$4"
+
+}
+
+xarr() {
+  local T=() U=("$@")
+
+  for V in "${U[@]:3}" ; do
+    T+=(-t "$2" -s "$V")
+
+  done
+
+  xfconf-query -c "$1" -p "$3" -n -a "${T[@]}"
+
+}
+
+xdel() {
+  xfconf-query -c "$1" -p "$2" -r -R
+
+}
+
+xkbset() { xset xfce4-keyboard-shortcuts string "$@" ; }
+xvset()  { xset "$xset_channel" "$@" ; }
+xvsets() { xvset string "$@" ; }
+xvsetu() { xvset uint "$@" ; }
+xvseti() { xvset int "$@" ; }
+xvsetb() { xvset bool "$@" ; }
+
+xvarr()  { xarr "$xset_channel" "$@" ; }
+xvarrs() { xvarr string "$@" ; }
+xvarru() { xvarr uint "$@" ; }
+xvarri() { xvarr int "$@" ; }
+xvarrb() { xvarr bool "$@" ; }
+
+xvdel()  { xdel "$xset_channel" "$@" ; }
+
+
+# xfwm4
+xset_channel=xfwm4
+
+xvsets  /general/theme              Adapta-Nokto
+xvsetb  /general/click_to_focus     false
+xvseti  /general/focus_delay        5
+xvsetb  /general/focus_new          false
+xvsetb  /general/snap_to_windows    true
+xvsetb  /general/wrap_workspaces    true
+xvsetb  /general/box_move           true
+xvsetb  /general/box_resize         true
+
+xvsets  /general/easy_click         Super
+xvsetb  /general/scroll_workspaces  false
+xvseti  /general/placement_ratio    0
+xvsets  /general/placement_mode     mouse
+xvsetb  /general/use_compositing    false
+
+
+# xfce4-desktop
+xset_channel=xfce4-desktop
+
+xvsetb  /desktop-icons/file-icons/show-filesystem     false
+xvsetb  /desktop-icons/file-icons/show-home           false
+xvsetb  /desktop-icons/file-icons/show-trash          false
+xvsetb  /desktop-icons/file-icons/show-removable      false
+xvsetb  /windowlist-menu/show-add-remove-workspaces   false
+
+
+# xsettings
+xset_channel=xsettings
+
+xvsets  /Net/ThemeName  Adwaita-dark
+
+
+# xfce4-keyboard-shortcuts
+xset_channel=xfce4-keyboard-shortcuts
+
+xvdel   /commands/custom
+xvdel   /xfwm4/custom
+xvsetb  /commands/custom/override   true
+xvsetb  /xfwm4/custom/override      true
+
+xkbset  '/xfwm4/custom/<Primary><Shift><Alt>Right'  move_window_right_key
+xkbset  '/xfwm4/custom/<Primary><Shift><Alt>Left'   move_window_left_key
+xkbset  '/xfwm4/custom/<Primary><Shift><Alt>Up'     move_window_up_key
+xkbset  '/xfwm4/custom/<Alt>F4'                     close_window_key
+xkbset  '/xfwm4/custom/<Super>Up'                   maximize_window_key
+xkbset  '/xfwm4/custom/<Super>Down'                 hide_window_key
+xkbset  '/xfwm4/custom/<Super>a'                    stick_window_key
+xkbset  '/xfwm4/custom/<Alt>Tab'                    lower_window_key
+xkbset  '/xfwm4/custom/<Super>t'                    above_key
+xkbset  '/xfwm4/custom/<Super>f'                    fullscreen_key
+xkbset  '/xfwm4/custom/<Super>Return'               fill_window_key
+xkbset  '/xfwm4/custom/<Shift><Super>Left'        move_window_prev_workspace_key
+xkbset  '/xfwm4/custom/<Shift><Super>Right'       move_window_next_workspace_key
+xkbset  '/xfwm4/custom/<Primary><Alt>8'             tile_up_key
+xkbset  '/xfwm4/custom/<Primary><Alt>2'             tile_down_key
+xkbset  '/xfwm4/custom/<Primary><Alt>4'             tile_left_key
+xkbset  '/xfwm4/custom/<Primary><Alt>6'             tile_right_key
+xkbset  '/xfwm4/custom/<Primary><Alt>7'             tile_up_left_key
+xkbset  '/xfwm4/custom/<Primary><Alt>9'             tile_up_right_key
+xkbset  '/xfwm4/custom/<Primary><Alt>1'             tile_down_left_key
+xkbset  '/xfwm4/custom/<Primary><Alt>3'             tile_down_right_key
+xkbset  '/xfwm4/custom/<Super>Left'                 prev_workspace_key
+xkbset  '/xfwm4/custom/<Super>Right'                next_workspace_key
+xkbset  '/xfwm4/custom/<Alt><Super>Right'           move_window_key
+xkbset  '/xfwm4/custom/<Alt><Super>Left'            resize_window_key
+xkbset  '/xfwm4/custom/<Shift><Super>exclam'        move_window_workspace_1_key
+xkbset  '/xfwm4/custom/<Shift><Super>at'            move_window_workspace_2_key
+xkbset  '/xfwm4/custom/<Shift><Super>numbersign'    move_window_workspace_3_key
+xkbset  '/xfwm4/custom/<Shift><Super>dollar'        move_window_workspace_4_key
+xkbset  '/xfwm4/custom/<Shift><Super>percent'       move_window_workspace_5_key
+xkbset  '/xfwm4/custom/<Shift><Super>asciicircum'   move_window_workspace_6_key
+xkbset  '/xfwm4/custom/<Shift><Super>ampersand'     move_window_workspace_7_key
+xkbset  '/xfwm4/custom/<Shift><Super>asterisk'      move_window_workspace_8_key
+xkbset  '/xfwm4/custom/<Shift><Super>parenleft'     move_window_workspace_9_key
+xkbset  '/xfwm4/custom/<Shift><Super>parenright'    move_window_workspace_10_key
+xkbset  '/xfwm4/custom/<Super>1'                    workspace_1_key
+xkbset  '/xfwm4/custom/<Super>2'                    workspace_2_key
+xkbset  '/xfwm4/custom/<Super>3'                    workspace_3_key
+xkbset  '/xfwm4/custom/<Super>4'                    workspace_4_key
+xkbset  '/xfwm4/custom/<Super>5'                    workspace_5_key
+xkbset  '/xfwm4/custom/<Super>6'                    workspace_6_key
+xkbset  '/xfwm4/custom/<Super>7'                    workspace_7_key
+xkbset  '/xfwm4/custom/<Super>8'                    workspace_8_key
+xkbset  '/xfwm4/custom/<Super>9'                    workspace_9_key
+xkbset  '/xfwm4/custom/<Super>0'                    workspace_10_key
+xkbset  '/xfwm4/custom/<Super>equal'                add_adjacent_workspace_key
+xkbset  '/xfwm4/custom/<Super>minus'                del_active_workspace_key
+
+xkbset  '/commands/custom/<Super>q'   'exo-open --launch TerminalEmulator'
+xkbset  '/commands/custom/<Super>x'   'exo-open --launch FileManager'
+xkbset  '/commands/custom/<Super>w'   'exo-open --launch WebBrowser'
+xkbset  '/commands/custom/<Super>r'   xfce4-appfinder
+xkbset  '/commands/custom/<Super>e'   gvim
+xkbset  '/commands/custom/<Super>c'   qalculate-gtk
+xkbset  '/commands/custom/<Super>v'   xfce4-popup-clipman
+xkbset  '/commands/custom/Print'      xfce4-screenshooter
+xkbset  '/commands/custom/<Super>l'   xflock4
+
+
+# xfce4-power-manager
+xset_channel=xfce4-power-manager
+
+xvsetu  /xfce4-power-manager/power-button-action      1
+xvsetu  /xfce4-power-manager/sleep-button-action      1
+xvsetu  /xfce4-power-manager/hibernate-button-action  1
+xvsetu  /xfce4-power-manager/battery-button-action    1
+xvsetb  /xfce4-power-manager/general-notification     true
+xvsetu  /xfce4-power-manager/critical-power-level     20
+xvsetb  /xfce4-power-manager/dpms-enabled             false
+xvseti  /xfce4-power-manager/show-panel-label         1
+
+
+# xfce4-screensaver
+xset_channel=xfce4-screensaver
+
+xvsetb  /saver/idle-activation/delay  1440
+
+
+# xfce4-panel
+xset_channel=xfce4-panel
+
+xfce4-panel -q && sleep 1 || :
+rm -fr -- ~/.config/xfce4/panel
+
+xvdel   /panels
+xvdel   /plugins
+
+xvsets  /plugins/plugin-1   tasklist
+xvsets  /plugins/plugin-2   separator
+xvsets  /plugins/plugin-3   pager
+xvsets  /plugins/plugin-4   systray
+xvsets  /plugins/plugin-5   xfce4-clipman-plugin
+xvsets  /plugins/plugin-6   screenshooter
+xvsets  /plugins/plugin-7   clock
+xvsets  /plugins/plugin-8   power-manager-plugin
+xvsets  /plugins/plugin-9   actions
+
+xvseti  /plugins/plugin-1/grouping          0
+xvseti  /plugins/plugin-1/sort-order        4
+xvseti  /plugins/plugin-1/middle-click      2
+xvsetb  /plugins/plugin-1/show-wireframes   true
+xvsetb  /plugins/plugin-1/window-scrolling  false
+xvsetb  /plugins/plugin-2/expand            true
+xvseti  /plugins/plugin-2/style             0
+xvsets  /plugins/plugin-7/tooltip-format    '%Y-%m-%d %H:%M:%S'
+xvsets  /plugins/plugin-7/digital-format    '%a %d %h, %H:%M:%S'
+xvseti  /plugins/plugin-9/appearance        0
+xvarrs  /plugins/plugin-9/items             \
+    -lock-screen -switch-user -separator -suspend -hibernae -hybrid-sleep \
+    -separator -shutdown -restart -separator +logout -logout-dialog
+
+xvarri  /panels   1 2
+
+xvsets  /panels/panel-1/position            'p=9;x=100;y=30'
+xvsetb  /panels/panel-1/position-locked     true
+xvseti  /panels/panel-1/autohide-behavior   2
+xvseti  /panels/panel-1/length              100
+xvseti  /panels/panel-1/size                30
+xvarri  /panels/panel-1/plugin-ids          1 2 3 4
+
+xvsets  /panels/panel-2/position            'p=10;x=100;y=30'
+xvsetb  /panels/panel-2/position-locked     true
+xvseti  /panels/panel-2/autohide-behavior   1
+xvseti  /panels/panel-2/length              10
+xvseti  /panels/panel-2/size                24
+xvarri  /panels/panel-2/plugin-ids          5 6 7 8 9
+
+nohup xfce4-panel <&- &>/dev/null &
+disown -hr
+
+
+# xfce4-session
+xset_channel=xfce4-session
+
+xvsetb  /general/SaveOnExit   false
+
+
+# thunar
+xset_channel=thunar
+
+xvsets  /misc-date-style                    THUNAR_DATE_STYLE_YYYYMMDD
+xvsetb  /misc-middle-click-in-tab           true
+xvsets  /last-view                          ThunarDetailsView
+xvsets  /last-details-view-visible-columns THUNAR_COLUMN_NAME,THUNAR_COLUMN_SIZE
+xvsetb  /last-menubar-visible               false
+
+
+# xfce4-appfinder
+xset_channel=xfce4-appfinder
+
+xvsetb  /always-center        true
+xvsetu  /category-icon-size   0
+
+
+# terminator
+mkdir -p -- ~/.config/terminator
+do_link ~/.config/terminator/config "$T/i/terminatorrc"
+
+
+# firefox
+firefox --headless & firefox_pid="$!"
+sleep 1
+
+for try in x x x ; do
+  kill -- "$firefox_pid" && try=y || break
+  sleep 1
+
+done
+
+[[ "$try" == x ]] || kill -9 -- "$firefox_pid" || :
+wait -- "$firefox_pid" || :
+
+for firefox_profile in ~/.mozilla/firefox/*.default-release ; do
+  do_link "$firefox_profile/user.js" "$T/i/firefox.js"
+
+done
+
+
+# vlc
+mkdir -p -- ~/.config/vlc
+do_link ~/.config/vlc/vlcrc "$T/i/vlcrc"

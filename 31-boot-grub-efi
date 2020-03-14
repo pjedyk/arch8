@@ -1,0 +1,18 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+cmdline=quiet
+swap="$(
+    grep '[[:space:]]swap[[:space:]]' /etc/fstab \
+    | head -n1 | sed -e's@^[[:space:]]\+@@g' -e's@[[:space:]].*$@@' || :
+)"
+[[ -z "$swap" ]] || cmdline+=" resume=$swap"
+
+do_patch_su /etc/default/grub "$T/i/patch/grub"
+$sudo sed -i "s@__CMDLINE__@$cmdline@" /etc/default/grub
+
+$sudo grub-install --target=x86_64-efi --recheck \
+    --bootloader-id grub --efi-directory /esp
+$sudo grub-mkconfig -o /boot/grub/grub.cfg

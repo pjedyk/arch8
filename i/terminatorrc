@@ -1,0 +1,6 @@
+[global_config]
+  window_state = maximise
+[profiles]
+  [[default]]
+    scrollback_infinite = True
+    show_titlebar = False

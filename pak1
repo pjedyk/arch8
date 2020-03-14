@@ -1,0 +1,8 @@
+gcc gdb strace make cmake python-pip npm jdk-openjdk qemu ovmf
+accountsservice xdg-user-dirs-gtk gvfs
+hunspell-pl hunspell-en_GB hunspell-en_US
+bluez-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth
+xf86-video-intel xorg-server xorg-xbacklight xorg-xrandr xorg-xinput lightdm-gtk-greeter
+xfdesktop xfwm4 adapta-gtk-theme xfce4-session xfce4-screensaver xfce4-notifyd xfce4-power-manager xfce4-settings xfce4-panel xfce4-appfinder
+xsel network-manager-applet xfce4-clipman-plugin xfce4-screenshooter thunar-volman thunar-archive-plugin
+terminator firefox-i18n-pl geeqie vlc qalculate-gtk cups xsane keepassxc

@@ -1,0 +1,6 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+qemu-img create -fqcow2 -obacking_file=image.bin -- "$T/image.qcow2"

@@ -1,0 +1,13 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+find "$T" -mindepth 1 -maxdepth 1 -\( \
+    -name '*-bootstrap-*' -or -name archlinux-bootstrap.tar.gz \
+    -or -name mirrorlist -or -name sha1sums.txt \
+    -\) -exec $sudo cp -dfru -t"$T/m/root/${T##*/}" --preserve=mode -- '{}' +
+
+U="$( do_chroot readlink -e -- "/root/${T##*/}" )"
+user="${U#/home/}" user="${user%%/*}"
+do_chroot chown -R -- "$user:$user" "$U"

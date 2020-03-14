@@ -1,0 +1,58 @@
+#! /bin/bash --
+
+set -eu -o pipefail || exit
+exec <&-
+
+KPDB_ACCOUNT="${KPDB_ACCOUNT:-default}"
+KPDB_FILE_NAME="${KPDB_FILE_NAME:-keepass.kdbx}"
+KPDB_LOCAL_FILE_NAME="${KPDB_LOCAL_FILE_NAME:-"$HOME/keepass.kdbx"}"
+
+_not() {
+  notify-send -u low -t 3000 -- KPDB "$*"
+
+}
+
+_notw() {
+  notify-send -u normal -t 10000 -- KPDB "$*"
+
+}
+
+_note() {
+  notify-send -u critical -- KPDB "$*"
+
+}
+
+if [[ ! -e "$KPDB_LOCAL_FILE_NAME" ]] ; then
+  rm -f -- "$KPDB_LOCAL_FILE_NAME~"
+  rclone copyto -- "$KPDB_ACCOUNT:$KPDB_FILE_NAME" "$KPDB_LOCAL_FILE_NAME"
+  cp -T -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_LOCAL_FILE_NAME~"
+  _not "Updated: $KPDB_LOCAL_FILE_NAME"
+
+else
+  _notw "Using local: $KPDB_LOCAL_FILE_NAME"
+
+fi
+
+keepassxc -- "$KPDB_LOCAL_FILE_NAME"
+
+if ! cmp -s -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_LOCAL_FILE_NAME~" ; then
+  _not "Changed: $KPDB_LOCAL_FILE_NAME"
+
+  ok=x
+  rclone copyto -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_ACCOUNT:$KPDB_FILE_NAME" \
+      || ok=
+
+  if [[ -n "$ok" ]] ; then
+    _notw "Uploaded: $KPDB_LOCAL_FILE_NAME"
+    rm -f -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_LOCAL_FILE_NAME~"
+
+  else
+    _note "Error: $KPDB_LOCAL_FILE_NAME"
+    false
+
+  fi
+
+else
+  _not "Not changed: $KPDB_LOCAL_FILE_NAME"
+
+fi

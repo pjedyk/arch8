@@ -1,0 +1,11 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+rm -f -- \
+    "$T/"*-bootstrap-*.tar.gz \
+    "$T/archlinux-bootstrap.tar.gz" \
+    "$T/mirrorlist" \
+    "$T/sha1sums.txt" \
+  ;

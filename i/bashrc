@@ -1,0 +1,67 @@
+path() {
+  while [[ $# -gt 0 ]] ; do
+    [[ ! "$PATH" =~ (^|:)"$1"(:|$) ]] && PATH="$1${PATH:+:"$PATH"}"
+    shift
+
+  done
+}
+
+path {,/usr{,/local}}/{,s}bin{,/{core,vendor,site}_perl}
+path ~/{{node,.local}/,}bin
+path ./node_modules/.bin
+path ./{.,}venv/bin
+
+
+HISTCONTROL=ignoreboth
+PROMPT_DIRTRIM=5
+
+PS_COL_NORM=$'\E[0m'
+PS_COL_COMMENT=$'\E[0m\E[1m\E[31m'
+
+PS_COL_RETCODE=$'\E[0m\E[1m\E[36m'
+PS_COL_TIME=$'\E[0m\E[0m\E[36m'
+PS_COL_USERHOST=$'\E[0m\E[0m\E[33m'
+PS_COL_WORKDIR=$'\E[0m\E[1m\E[36m'
+PS_COL_HISTCODE=$'\E[0m\E[0m\E[36m'
+PS_COL_PROMPT=$'\E[0m\E[1m\E[33m'
+
+PS_COL_0_RETCODE=$'\E[0m\E[1m\E[36m'
+PS_COL_0_TIME=$'\E[0m\E[0m\E[36m'
+PS_COL_0_USERHOST=$'\E[0m\E[1m\E[33m'
+PS_COL_0_WORKDIR=$'\E[0m\E[1m\E[36m'
+PS_COL_0_HISTCODE=$'\E[0m\E[0m\E[36m'
+PS_COL_0_PROMPT=$'\E[0m\E[1m\E[31m'
+
+PS1='\[$PS_COL_NORM\]\n'
+PS1+='\[\e[80C\e[8D${PS_COL_'"$UID"'_TIME-$PS_COL_TIME}[ \A ]$PS_COL_NORM\r\]'
+[[ -z "${IN_CHROOT-}" ]] || PS1+='\[$PS_COL_COMMENT\](chroot)\[$PS_COL_NORM\] '
+PS1+='\[${PS_COL_'"$UID"'_RETCODE-$PS_COL_RETCODE}\]$?\[$PS_COL_NORM\] '
+PS1+='\[${PS_COL_'"$UID"'_USERHOST-$PS_COL_USERHOST}\]\u@\h:\[$PS_COL_NORM\] '
+PS1+='\[${PS_COL_'"$UID"'_WORKDIR-$PS_COL_WORKDIR}\]\w\[$PS_COL_NORM\]\n'
+PS1+='\[${PS_COL_'"$UID"'_HISTCODE-$PS_COL_HISTCODE}\]\!:\[$PS_COL_NORM\] '
+PS1+='\[${PS_COL_'"$UID"'_PROMPT-$PS_COL_PROMPT}\]\$\[$PS_COL_NORM\] '
+PS2='\[${PS_COL_'"$UID"'_PROMPT-$PS_COL_PROMPT}\] \$ \[$PS_COL_NORM\] '
+
+
+if [[ -e ~/.dircolors ]] ; then
+  eval -- "$( dircolors -b -- "$HOME/.dircolors" )"
+
+else
+  eval -- "$( dircolors -b )"
+
+fi
+
+
+alias l='ls -bhilpqF --group-directories-first --color=always'
+alias L='l -a'
+
+
+if [[ -e ~/.bashrc_local ]] ; then
+  source -- ~/.bashrc_local
+
+fi
+
+if [[ -e /etc/bash_completion ]] ; then
+  source -- /etc/bash_completion
+
+fi

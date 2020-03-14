@@ -1,0 +1,6 @@
+--- etc/pulse/default.pa
++++ etc/pulse/default.pa
+@@ -99999,0 +99999,3 @@
++
++### Automatically switch to newly-connected devices
++load-module module-switch-on-connect

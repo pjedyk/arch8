@@ -1,0 +1,56 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+if [[ ! -e /etc/pacman.d/gnupg ]] ; then
+  $sudo pacman-key --init
+  $sudo pacman-key --populate
+
+fi
+
+[[ -e /var/lib/pacman/sync/core.db ]] || $sudo pacman -Suyy --noconfirm
+$sudo pacman -S --needed --noconfirm base patch
+
+do_patch_su /etc/locale.gen "$T/i/patch/locale.gen"
+$sudo locale-gen
+do_link_su /etc/localtime "/usr/share/zoneinfo/$TZ"
+
+do_backup_remove_su /etc/locale.conf
+do_backup_remove_su /etc/vconsole.conf
+printf '%s=%q\n' LANG "$LANG" | $sudo tee /etc/locale.conf
+printf '%s=%q\n' KEYMAP "$VC_KEYMAP" FONT "$VC_FONT" \
+| $sudo tee /etc/vconsole.conf
+
+xargs -a"$T/pak0" -- $sudo pacman -S --needed --noconfirm --
+[[ -e /usr/bin/gvim ]] || $sudo pacman -S --needed --noconfirm vim
+xargs -a"$T/pak0-vim" -- $sudo pacman -S --needed --noconfirm --
+
+xargs -a"$T/pak1" -- $sudo pacman -Sw --noconfirm -- gvim
+xargs -a"$T/pak1-fonts" -- $sudo pacman -Sw --noconfirm --
+xargs -a"$T/pak1-deps" -- $sudo pacman -Sw --noconfirm --
+
+do_backup_remove_su /etc/hostname
+do_backup_remove_su /etc/sysctl.d/90-sysctl.conf
+do_backup_remove_su /etc/modprobe.d/pcspkr.conf
+do_backup_remove_su /etc/tmpfiles.d/tmp.conf
+do_backup_remove_su /etc/samba/smb.conf
+
+[[ -n "${TARGET_HOSTNAME-}" ]] || read -e -p'hostname: ' TARGET_HOSTNAME
+printf -- '%s\n' "$TARGET_HOSTNAME" | $sudo tee /etc/hostname
+do_link_su /etc/sysctl.d/90-sysctl.conf "$T/i/sysctl.conf"
+do_link_su /etc/modprobe.d/pcspkr.conf "$T/i/pcspkr.conf"
+do_link_su /etc/tmpfiles.d/tmp.conf "$T/i/tmp.conf"
+do_link_su /etc/samba/smb.conf "$T/i/smb.conf"
+
+do_patch_su /etc/systemd/logind.conf "$T/i/patch/logind.conf"
+do_patch_su /etc/nsswitch.conf "$T/i/patch/nsswitch.conf"
+do_patch_su /etc/sudoers "$T/i/patch/sudoers"
+do_patch_su /etc/makepkg.conf "$T/i/patch/makepkg.conf"
+
+$sudo systemctl mask tmp.mount
+$sudo systemctl enable fstrim.timer
+$sudo systemctl enable sshd.service
+$sudo systemctl enable winbind.service
+$sudo systemctl enable NetworkManager.service
+$sudo systemctl enable avahi-daemon.service

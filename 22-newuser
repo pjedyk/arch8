@@ -1,0 +1,31 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+read -e -p'username: ' username
+read -e -p'fullname: ' fullname
+
+[[ -e /home/"$username" ]] || $sudo useradd \
+    -m -b/home -s/bin/bash -Gtty,rfkill,uucp,wheel -- "$username"
+$sudo chfn -f "$fullname" -- "$username"
+$sudo passwd -- "$username"
+
+U=/home/"$username"/"${T#~/}"
+
+if [[ ! -e "$U" ]] ; then
+  if [[ "$UID" -eq 0 ]] && [[ ! -h "$T" ]] ; then
+    cd /
+    $sudo mv -T -- "$T" "$U"
+    ln -fnrsT -- "$U" "$T"
+    cd -- "$OLDPWD"
+
+  else
+    $sudo cp -dfrL --preserve=mode -- "$T" "$U"
+
+  fi
+fi
+
+$sudo chown -hR -- "$username:$username" "$U"
+
+exec -- $sudo runuser - "$username"

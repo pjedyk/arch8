@@ -1,0 +1,5 @@
+--- etc/sudoers
++++ etc/sudoers
+@@ -0,1 +0,1 @@
+-# %wheel ALL=(ALL) ALL
++%wheel ALL=(ALL) ALL

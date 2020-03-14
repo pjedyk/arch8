@@ -1,0 +1,17 @@
+--- etc/locale.gen
++++ etc/locale.gen
+@@ -0,2 +0,2 @@
+-#en_GB.UTF-8 UTF-8
+-#en_GB ISO-8859-1
++en_GB.UTF-8 UTF-8
++en_GB ISO-8859-1
+@@ -0,2 +0,2 @@
+-#en_US.UTF-8 UTF-8
+-#en_US ISO-8859-1
++en_US.UTF-8 UTF-8
++en_US ISO-8859-1
+@@ -0,2 +0,2 @@
+-#pl_PL.UTF-8 UTF-8
+-#pl_PL ISO-8859-2
++pl_PL.UTF-8 UTF-8
++pl_PL ISO-8859-2

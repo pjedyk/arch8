@@ -1,0 +1,31 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+$sudo mount -omode=0755,nosuid -tdevtmpfs -- udev "$T/m/dev"
+$sudo mount -omode=0620,gid=5,nosuid,noexec -tdevpts -- devpts "$T/m/dev/pts"
+$sudo mount -omode=1777,nosuid,nodev -ttmpfs -- shm "$T/m/dev/shm"
+$sudo mount -onosuid,noexec,nodev -tproc -- proc "$T/m/proc"
+$sudo mount -onosuid,nodev,mode=755 -ttmpfs -- run "$T/m/run"
+$sudo mount -onosuid,noexec,nodev,ro -tsysfs -- sys "$T/m/sys"
+$sudo mount -omode=1777,strictatime,nodev,nosuid -ttmpfs -- tmp "$T/m/tmp"
+$sudo mount -obind -- /etc/resolv.conf "$T/m/etc/resolv.conf"
+
+if [[ -e /run/lvm ]] ; then
+  $sudo mkdir -m755 -- "$T/m/run/lvm"
+  $sudo mount -obind -- /run/lvm "$T/m/run/lvm"
+
+fi
+
+if [[ -e /run/udev ]] ; then
+  $sudo mkdir -m755 -- "$T/m/run/udev"
+  $sudo mount -obind -- /run/udev "$T/m/run/udev"
+
+fi
+
+if mountpoint -q /sys/firmware/efi/efivars ; then
+  $sudo mount -tefivarfs -onosuid,noexec,nodev -- \
+      efivarfs "$T/m/sys/firmware/efi/efivars"
+
+fi

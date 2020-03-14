@@ -1,0 +1,9 @@
+/mirrorlist
+/sha1sums.txt
+/*-bootstrap-*
+/archlinux-bootstrap.tar.gz
+/m/
+/image.bin
+/image.qcow2
+/t/*
+!/t/.gitkeep

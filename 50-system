@@ -1,0 +1,31 @@
+#! /bin/bash --
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+$sudo timedatectl set-ntp true
+
+xargs -a"$T/pak1" -- $sudo pacman -S --needed --noconfirm --
+xargs -a"$T/pak1-fonts" -- $sudo pacman -S --needed --noconfirm --
+xargs -a"$T/pak1-deps" -- $sudo pacman -S --asdeps --needed --noconfirm --
+
+if [[ -e /usr/bin/vim ]] && [[ ! -e /usr/bin/gvim ]] ; then
+    $sudo pacman -Rcns --noconfirm vim
+
+fi
+
+$sudo pacman -S --needed --noconfirm gvim
+xargs -a"$T/pak0-vim" -- $sudo pacman -S --asdeps --needed --noconfirm --
+
+$sudo localectl --no-convert -- set-x11-keymap "$X11_KEYMAP"
+
+do_patch_su /etc/mkinitcpio.conf "$T/i/patch/mkinitcpio.conf"
+do_patch_su /etc/pulse/default.pa "$T/i/patch/default.pa"
+do_patch_su /etc/lightdm/lightdm-gtk-greeter.conf "$T/i/patch/lightdm-gtk-greeter.conf"
+do_link_su /etc/X11/xorg.conf.d/50-rat3remap.conf "$T/i/rat3remap.conf"
+do_link_su /usr/share/backgrounds/xfce/xfce-stripes.png "$T/i/image/black.png"
+
+$sudo systemctl enable lightdm.service
+$sudo systemctl enable bluetooth.service
+
+$sudo mkinitcpio -plinux

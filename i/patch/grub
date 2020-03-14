@@ -1,0 +1,14 @@
+--- etc/default/grub
++++ etc/default/grub
+@@ -0,1 +0,1 @@
+-GRUB_DEFAULT=0
++GRUB_DEFAULT=saved
+@@ -0,1 +0,1 @@
+-GRUB_TIMEOUT=5
++GRUB_TIMEOUT=8
+@@ -0,1 +0,1 @@
+-GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet"
++GRUB_CMDLINE_LINUX_DEFAULT="__CMDLINE__"
+@@ -0,1 +0,1 @@
+-#GRUB_SAVEDEFAULT="true"
++GRUB_SAVEDEFAULT="true"
