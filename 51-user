@@ -156,10 +156,9 @@ xvsetb  /xfce4-power-manager/dpms-enabled             false
 xvseti  /xfce4-power-manager/show-panel-label         1
 
 
-# xfce4-screensaver
-xset_channel=xfce4-screensaver
-
-xvseti  /saver/idle-activation/delay  1440
+# xscreensaver
+do_link ~/.xscreensaver "$T/i/xscreensaver"
+xscreensaver-command -restart || :
 
 
 # xfce4-panel
