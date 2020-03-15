@@ -38,16 +38,17 @@ keepassxc -- "$KPDB_LOCAL_FILE_NAME"
 if ! cmp -s -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_LOCAL_FILE_NAME~" ; then
   _not "Changed: $KPDB_LOCAL_FILE_NAME"
 
-  ok=x
-  rclone copyto -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_ACCOUNT:$KPDB_FILE_NAME" \
-      || ok=
+  ok=x r="$( rclone copyto -- \
+      "$KPDB_LOCAL_FILE_NAME" "$KPDB_ACCOUNT:$KPDB_FILE_NAME" \
+      2>&1
+  )" || ok=
 
   if [[ -n "$ok" ]] ; then
     _notw "Uploaded: $KPDB_LOCAL_FILE_NAME"
     rm -f -- "$KPDB_LOCAL_FILE_NAME" "$KPDB_LOCAL_FILE_NAME~"
 
   else
-    _note "Error: $KPDB_LOCAL_FILE_NAME"
+    _note "Error: $KPDB_LOCAL_FILE_NAME"$'\n\n'"$r"
     false
 
   fi
