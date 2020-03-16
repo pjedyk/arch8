@@ -37,8 +37,6 @@ if [[ "$UID" -ne 0 ]] ; then
   do_backup_remove ~/.config/user-dirs.dirs
   printf -- '%s' "$conf" | tee -- ~/.config/user-dirs.dirs
 
-  ssh-keygen -N '' -f ~/.ssh/id_rsa
-
 else
   passwd
 
