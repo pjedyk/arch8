@@ -95,9 +95,7 @@ mount -obind m/esp/EFI/install m/boot
 ./arch8/21-user
 # Set root password
 ./arch8/30-initrd-full
-# Probably enter user password (for sudo)
 ./arch8/31-boot-grub-efi-removable
-# Ctrl+D
 # Ctrl+D
 ```
 
