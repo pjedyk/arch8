@@ -5,4 +5,4 @@ bluez-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth
 xf86-video-intel xorg-server xorg-xbacklight xorg-xrandr xorg-xinput lightdm-gtk-greeter
 xfdesktop xfwm4 xscreensaver adapta-gtk-theme xfce4-session xfce4-notifyd xfce4-power-manager xfce4-settings xfce4-panel xfce4-appfinder
 xsel network-manager-applet xfce4-clipman-plugin xfce4-screenshooter xfce4-pulseaudio-plugin pavucontrol thunar-volman thunar-archive-plugin
-terminator firefox-i18n-pl geeqie vlc qalculate-gtk cups xsane keepassxc
+terminator firefox-i18n-pl geeqie vlc qalculate-gtk cups xsane keepassxc xarchiver
