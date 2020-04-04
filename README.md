@@ -193,9 +193,8 @@ reboot
 - *NOT SAFE* -- Modifies system and/or user files and/or others (e.g.,
   `efivarfs`). Use **only** on target OS!
 
-+----------------------------+--------------+
 | Script                     | Safety       |
-+----------------------------+--------------+
+|----------------------------|--------------|
 | 00-dummy                   | Safe         |
 | 10-fetch                   | Safe         |
 | 11-mpopul                  | Safe         |
@@ -216,7 +215,6 @@ reboot
 | 50-system                  | **NOT SAFE** |
 | 51-user                    | **NOT SAFE** |
 | 99-clean                   | Safe         |
-+----------------------------+--------------+
 
 ## Remarks
 
