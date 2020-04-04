@@ -3,7 +3,7 @@
 T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
 source -- "$T/lib.sh" || exit
 
-find "$T" -mindepth 1 -maxdepth 1 -\( \
+find -H "$T" -mindepth 1 -maxdepth 1 -\( \
     -name '*-bootstrap-*' -or -name archlinux-bootstrap.tar.gz \
     -or -name mirrorlist -or -name sha1sums.txt \
     -\) -exec $sudo cp -dfru -t"$T/m/root/${T##*/}" --preserve=mode -- '{}' +
