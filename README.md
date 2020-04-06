@@ -189,7 +189,8 @@ reboot
 ## Scripts safety table
 
 - *Safe* -- Does not modify files outside this directory and subdirectories.
-- *In chroot* -- Modifies system and/or user files.
+- *In chroot* -- Modifies system and/or user files. Use in chroot and on
+  target OS.
 - *NOT SAFE* -- Modifies system and/or user files and/or others (e.g.,
   `efivarfs`). Use **only** on target OS!
 
@@ -205,6 +206,7 @@ reboot
 | 14-fstab                   | Safe         |
 | 19-chroot                  | Safe         |
 | 20-grow                    | In chroot    |
+| 20-grow-local              | In chroot    |
 | 21-user                    | In chroot    |
 | 22-newuser                 | In chroot    |
 | 30-initrd                  | In chroot    |
