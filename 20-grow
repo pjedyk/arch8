@@ -31,14 +31,12 @@ xargs -a"$T/pak1-fonts" -- $sudo pacman -Sw --noconfirm --
 xargs -a"$T/pak1-deps" -- $sudo pacman -Sw --noconfirm --
 
 do_backup_remove_su /etc/hostname
-do_backup_remove_su /etc/sysctl.d/90-sysctl.conf
-do_backup_remove_su /etc/modprobe.d/pcspkr.conf
-do_backup_remove_su /etc/tmpfiles.d/tmp.conf
-do_backup_remove_su /etc/samba/smb.conf
-
 [[ -n "${TARGET_HOSTNAME-}" ]] || read -e -p'hostname: ' TARGET_HOSTNAME
 printf -- '%s\n' "$TARGET_HOSTNAME" | $sudo tee /etc/hostname
+
 do_link_su /etc/sysctl.d/90-sysctl.conf "$T/i/sysctl.conf"
+do_link_su /etc/iptables/iptables.rules "$T/i/iptables.rules"
+do_link_su /etc/iptables/ip6tables.rules "$T/i/ip6tables.rules"
 do_link_su /etc/modprobe.d/pcspkr.conf "$T/i/pcspkr.conf"
 do_link_su /etc/tmpfiles.d/tmp.conf "$T/i/tmp.conf"
 do_link_su /etc/samba/smb.conf "$T/i/smb.conf"
@@ -50,6 +48,8 @@ do_patch_su /etc/makepkg.conf "$T/i/patch/makepkg.conf"
 
 $sudo systemctl mask tmp.mount
 $sudo systemctl enable fstrim.timer
+$sudo systemctl enable iptables.service
+$sudo systemctl enable ip6tables.service
 $sudo systemctl enable sshd.service
 $sudo systemctl enable winbind.service
 $sudo systemctl enable NetworkManager.service
