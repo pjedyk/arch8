@@ -1,4 +1,4 @@
-gcc gdb strace make cmake python-pip npm jdk-openjdk qemu ovmf
+gcc gdb strace make cmake fakeroot python-pip npm jdk-openjdk qemu ovmf
 accountsservice xdg-user-dirs-gtk gvfs
 hunspell-pl hunspell-en_GB hunspell-en_US
 bluez-utils pulseaudio pulseaudio-alsa pulseaudio-bluetooth
