@@ -53,7 +53,7 @@ $sudo ip6tables -A TCP -p tcp --dport 443 -j ACCEPT
 $sudo ip6tables -A TCP -p tcp --dport 22 -j ACCEPT
 $sudo ip6tables -A UDP -p udp --dport 5353 -j ACCEPT
 
-#$sudo ip6tables -A INPUT -s fe80::/10 -p ipv6-icmp -j ACCEPT
+$sudo ip6tables -A INPUT -s fe80::/10 -p ipv6-icmp -j ACCEPT
 $sudo ip6tables -A INPUT -p udp -j REJECT --reject-with icmp6-port-unreachable
 $sudo ip6tables -A INPUT -p tcp -j REJECT --reject-with tcp-reset
 $sudo ip6tables -A INPUT -j REJECT --reject-with icmp6-port-unreachable
