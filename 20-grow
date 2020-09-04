@@ -45,6 +45,7 @@ do_link_su /etc/samba/smb.conf "$T/i/smb.conf"
 do_patch_su /etc/systemd/logind.conf "$T/i/patch/logind.conf"
 do_patch_su /etc/nsswitch.conf "$T/i/patch/nsswitch.conf"
 do_patch_su /etc/makepkg.conf "$T/i/patch/makepkg.conf"
+do_patch_su /etc/environment "$T/i/patch/environment"
 
 $sudo "$T/i/sudoers.sh"
 

@@ -1,0 +1,4 @@
+--- etc/environment
++++ etc/environment
+@@ -99999,0 +99999,1 @@
++MOZ_USE_XINPUT2=1
