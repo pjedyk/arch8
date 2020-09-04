@@ -268,3 +268,7 @@ done
 # vlc
 mkdir -p -- ~/.config/vlc
 do_link ~/.config/vlc/vlcrc "$T/i/vlcrc"
+
+
+# other
+do_link ~/.config/xfce4/helpers.rc "$T/i/helpers.rc"
