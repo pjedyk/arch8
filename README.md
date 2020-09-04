@@ -2,6 +2,16 @@
 
 My private Arch Linux installation helper & configurer.
 
+## Prerequisites
+
+### Configure `env.sh`
+
+```sh
+cp env.sh.in env.sh
+${EDITOR:-vim} env.sh
+# Adjust environment variables
+```
+
 ## Usage
 
 ### QEMU

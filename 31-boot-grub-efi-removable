@@ -1,7 +1,8 @@
 #! /bin/bash --
 
 T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
-source -- "$T/lib.sh" || exit
+source -- "$T/lib.sh" &&
+source -- "$T/env.sh" || exit
 
 do_patch_su /etc/default/grub "$T/i/patch/grub-removable"
 $sudo grub-install --target=x86_64-efi --recheck --removable \

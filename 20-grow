@@ -9,11 +9,12 @@ if [[ ! -e /etc/pacman.d/gnupg ]] ; then
 
 fi
 
-[[ -e /var/lib/pacman/sync/core.db ]] || $sudo pacman -Suyy --noconfirm
-$sudo pacman -S --needed --noconfirm base patch
+[[ -e /var/lib/pacman/sync/core.db ]] || $sudo pacman -Syy --noconfirm
+$sudo pacman -Su --needed --noconfirm base patch
 
 do_patch_su /etc/locale.gen "$T/i/patch/locale.gen"
 $sudo locale-gen
+source -- "$T/env.sh"
 do_link_su /etc/localtime "/usr/share/zoneinfo/$TZ"
 
 do_backup_remove_su /etc/locale.conf

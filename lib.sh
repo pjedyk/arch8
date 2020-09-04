@@ -3,11 +3,6 @@
 set -eu -o pipefail
 shopt -s nullglob
 
-export -- \
-    TZ=Europe/Warsaw LANG=pl_PL.UTF-8 LC_ALL=pl_PL.UTF-8 \
-    VC_KEYMAP=pl VC_FONT=lat2-16 X11_KEYMAP=pl \
-  ;
-
 sudo= ; [[ $UID -eq 0 ]] || sudo='sudo --'
 edit='vim --' ; [[ -z "${EDITOR-}" ]] || edit="$EDITOR"
 

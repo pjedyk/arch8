@@ -1,7 +1,8 @@
 #! /bin/bash --
 
 T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
-source -- "$T/lib.sh" || exit
+source -- "$T/lib.sh" &&
+source -- "$T/env.sh" || exit
 
 cmdline=quiet
 swap="$(

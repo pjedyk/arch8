@@ -1,7 +1,8 @@
 #! /bin/bash --
 
 T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
-source -- "$T/lib.sh" || exit
+source -- "$T/lib.sh" &&
+source -- "$T/env.sh" || exit
 
 read -e -p'username: ' username
 read -e -p'fullname: ' fullname
@@ -28,4 +29,4 @@ fi
 
 $sudo chown -hR -- "$username:$username" "$U"
 
-exec -- $sudo runuser - "$username"
+exec -- $sudo runuser -wIN_CHROOT - "$username"
