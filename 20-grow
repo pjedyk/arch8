@@ -44,8 +44,9 @@ do_link_su /etc/samba/smb.conf "$T/i/smb.conf"
 
 do_patch_su /etc/systemd/logind.conf "$T/i/patch/logind.conf"
 do_patch_su /etc/nsswitch.conf "$T/i/patch/nsswitch.conf"
-do_patch_su /etc/sudoers "$T/i/patch/sudoers"
 do_patch_su /etc/makepkg.conf "$T/i/patch/makepkg.conf"
+
+$sudo "$T/i/sudoers.sh"
 
 $sudo systemctl mask tmp.mount
 $sudo systemctl enable fstrim.timer
