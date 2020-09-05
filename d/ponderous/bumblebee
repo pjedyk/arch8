@@ -1,0 +1,4 @@
+# enable multilib !
+pacman -S -- bumblebee mesa nvidia lib32-nvidia-utils lib32-virtualgl mesa-demos primus lib32-primus bbswitch
+usermod -a -Gbumblebee -- "$USER"
+systemctl -- enable bumblebeed.service
