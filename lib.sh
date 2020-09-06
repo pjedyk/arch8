@@ -76,7 +76,7 @@ do_chroot() {
   local chroot="$( which chroot )" &&
 
   ( exec -c -- \
-        "$env" -- TERM="$TERM" \
+        "$env" -- TERM="$TERM" TARGET_HOSTNAME="${TARGET_HOSTNAME-}" \
         $sudo "$chroot" -- "$T/m" \
         /bin/bash -- "/root/${T##*/}/chroot.sh" "$@" \
   )

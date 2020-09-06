@@ -72,7 +72,7 @@ dev=/dev/sdX
 #### Prepare installation device (instead `image.bin.create`)
 
 ```sh
-printf '%s\n' g n '' '' +300M t 1 n '' '' '' w | fdisk ${dev}
+printf '%s\n' g n '' '' +300M t 1 n '' '' '' w | fdisk -walways ${dev}
 mkfs.vfat -nESP -F32 ${dev}1
 mkfs.btrfs -f -Linstall ${dev}2
 ```
@@ -137,16 +137,17 @@ target_dev=/dev/sdY
 ```sh
 # Boot just prepared installation device
 # Log in as root
-printf '%s\n' g n '' '' +300M t 1 n '' '' +1G t '' 19 n '' '' '' w | fdisk ${target_dev}
+export TARGET_HOSTNAME=target
+printf '%s\n' g n '' '' +300M t 1 n '' '' +1G t '' 19 n '' '' '' w | fdisk -walways ${target_dev}
 mkfs.vfat -nESP -F32 ${target_dev}1
 mkswap -Lswap ${target_dev}2
-mkfs.btrfs -f -Ltarget ${target_dev}3
+mkfs.btrfs -f -L${TARGET_HOSTNAME} ${target_dev}3
 mkdir m
 mount -onoatime,nodiratime ${target_dev}3 m
 mkdir -p m/esp m/boot
 mount -onoatime,nodiratime ${target_dev}1 m/esp
-mkdir -p m/esp/EFI/target
-mount -obind m/esp/EFI/target m/boot
+mkdir -p m/esp/EFI/${TARGET_HOSTNAME}
+mount -obind m/esp/EFI/${TARGET_HOSTNAME} m/boot
 swapon ${target_dev}2
 ```
 
