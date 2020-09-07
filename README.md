@@ -72,20 +72,20 @@ dev=/dev/sdX
 #### Prepare installation device (instead `image.bin.create`)
 
 ```sh
-printf '%s\n' g n '' '' +300M t 1 n '' '' '' w | fdisk -walways ${dev}
-mkfs.vfat -nESP -F32 ${dev}1
-mkfs.btrfs -f -Linstall ${dev}2
+printf '%s\n' g n '' '' +300M t 1 n '' '' '' w | sudo fdisk -walways ${dev}
+sudo mkfs.vfat -nESP -F32 ${dev}1
+sudo mkfs.btrfs -f -Linstall ${dev}2
 ```
 
 #### Mount installation device (instead `image.bin.mount`)
 
 ```sh
 mkdir m
-mount -onoatime,nodiratime ${dev}2 m
-mkdir -p m/esp m/boot
-mount -onoatime,nodiratime ${dev}1 m/esp
-mkdir -p m/esp/EFI/install
-mount -obind m/esp/EFI/install m/boot
+sudo mount -onoatime,nodiratime ${dev}2 m
+sudo mkdir -p m/esp m/boot
+sudo mount -onoatime,nodiratime ${dev}1 m/esp
+sudo mkdir -p m/esp/EFI/install
+sudo mount -obind m/esp/EFI/install m/boot
 ```
 
 #### Install temporary system
@@ -104,7 +104,7 @@ mount -obind m/esp/EFI/install m/boot
 
 ```sh
 # In chroot
-./arch8/20-grow
+TARGET_HOSTNAME=install ./arch8/20-grow
 ./arch8/21-user
 # Set root password
 ./arch8/30-initrd-full
@@ -120,7 +120,7 @@ mount -obind m/esp/EFI/install m/boot
 #### Unmount installation device (instead `image.bin.umount`)
 
 ```sh
-umount m/boot m/esp m
+sudo umount m/boot m/esp m
 rmdir m
 ```
 
