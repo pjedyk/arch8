@@ -22,6 +22,10 @@ if !filereadable(&spellfile . '.spl') || getftime(&spellfile) > getftime(&spellf
 
 endif
 
+command NU set number! relativenumber!
+command Nu NU
+map U :NU<CR>
+
 
 function ISpace(n)
   set expandtab
