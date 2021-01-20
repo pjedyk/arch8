@@ -28,6 +28,6 @@ do_link_su /usr/share/backgrounds/xfce/xfce-stripes.png "$T/i/image/black.png"
 
 $sudo systemctl enable lightdm.service
 $sudo systemctl enable bluetooth.service
-$sudo systemctl enable org.cups.cupsd.service
+$sudo systemctl enable cups.service
 
 $sudo mkinitcpio -plinux

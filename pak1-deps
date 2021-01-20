@@ -1,4 +1,3 @@
 gvfs-afc gvfs-mtp gvfs-smb
 libva-intel-driver gst-plugins-base-libs protobuf libmicrodns lua-socket
 twolame vcdimager mpg123 libdvdread libdvdnav zvbi sdl_image srt
-
