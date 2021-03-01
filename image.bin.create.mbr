@@ -12,7 +12,7 @@ if [[ ! -e "$T/image.bin" ]] ; then
 fi
 
 printf -- '%s\n' o \
-    n p '' '' +300M \
+    n p '' '' +300M a \
     n p '' '' +1G t '' 82 \
     n p '' '' '' \
     w \
