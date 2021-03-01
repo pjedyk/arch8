@@ -31,7 +31,7 @@ ${EDITOR:-vim} env.sh
 
 ```sh
 # In chroot
-./arch8/20-grow
+TARGET_HOSTNAME=test ./arch8/20-grow
 ./arch8/21-user
 # Set root password
 ./arch8/22-newuser
