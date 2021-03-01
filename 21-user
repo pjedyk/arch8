@@ -7,17 +7,15 @@ source -- "$T/env.sh" || exit
 
 mkdir -p -- ~/.config/htop ~/bin
 
-do_backup_remove ~/.profile
-do_backup_remove ~/.bashrc
+do_backup_remove ~/.zshrc
 do_backup_remove ~/.vimrc
 do_backup_remove ~/.npmrc
 do_backup_remove ~/.config/htop/htoprc
 
-do_link ~/.profile "$T/i/profile"
-do_link ~/.bashrc "$T/i/bashrc"
-do_link ~/.vimrc "$T/i/vimrc"
+do_link ~/.zshrc "$T/p/zshrc"
+do_link ~/.vimrc "$T/p/vimrc"
 do_link ~/.npmrc "$T/i/npmrc"
-do_link ~/.config/htop/htoprc "$T/i/htoprc"
+do_link ~/.config/htop/htoprc "$T/p/htoprc"
 
 for b in "$T/b/"* ; do
   do_link ~/bin/"${b##*/}" "$b"
@@ -39,6 +37,7 @@ if [[ "$UID" -ne 0 ]] ; then
   printf -- '%s' "$conf" | tee -- ~/.config/user-dirs.dirs
 
 else
+  chsh -s/bin/zsh
   passwd
 
 fi

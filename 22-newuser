@@ -9,7 +9,7 @@ read -e -p'username: ' username
 read -e -p'fullname: ' fullname
 
 [[ -e /home/"$username" ]] || $sudo useradd \
-    -m -b/home -s/bin/bash -Gtty,rfkill,uucp,wheel -- "$username"
+    -m -b/home -s/bin/zsh -Gtty,rfkill,uucp,wheel -- "$username"
 $sudo chfn -f "$fullname" -- "$username"
 $sudo passwd -- "$username"
 
@@ -28,6 +28,7 @@ if [[ ! -e "$U" ]] ; then
   fi
 fi
 
+$sudo touch -a -- /home/"$username"/.zshrc
 $sudo chown -hR -- "$username:$username" "$U"
 
 exec -- $sudo runuser -wIN_CHROOT - "$username"

@@ -1,5 +1,5 @@
 intel-ucode grub os-prober efibootmgr linux linux-firmware
-bash-completion which man man-pages openssh sudo git rsync rclone wget htop pv dos2unix hexedit screen
+zsh zsh-completions which man man-pages openssh sudo git rsync rclone wget htop pv dos2unix hexedit screen
 dosfstools ntfs-3g exfat-utils btrfs-progs samba smbclient cifs-utils
 networkmanager avahi nss-mdns dnsmasq nmap
 zip unzip unrar
