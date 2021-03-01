@@ -7,6 +7,7 @@ source -- "$T/lib.sh" || exit
 do_backup_remove_su "$T/m/etc/pacman.d/mirrorlist"
 $sudo cp -fT --preserve=mode -- "$T/mirrorlist" "$T/m/etc/pacman.d/mirrorlist"
 [[ -e "$T/m/root/${T##*/}" ]] || $sudo install -d -m755 "$T/m/root/${T##*/}"
+$sudo rm -fr -- "$T/m/root/${T##*/}/.git"
 
 find -H "$T" -mindepth 1 -maxdepth 1 \
     ! -name mirrorlist ! -name sha1sums.txt \
