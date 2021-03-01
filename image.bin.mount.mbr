@@ -1,0 +1,15 @@
+#! /bin/bash --
+# vim: set et ts=2 sts=2 sw=2 :
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" || exit
+
+lo="$( $sudo losetup -f --show -- "$T/image.bin" )"
+printf -- 'lo=%q\n' "$lo"
+$sudo partprobe -- "$lo"
+
+mkdir -- "$T/m"
+$sudo mount -onoatime,nodiratime -- "$lo"p3 "$T/m"
+$sudo install -d -m755 -oroot -- "$T/m/boot"
+$sudo mount -onoatime,nodiratime -- "$lo"p1 "$T/m/boot"
+$sudo swapon -- "$lo"p2

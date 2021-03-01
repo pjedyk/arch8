@@ -17,8 +17,8 @@ ${EDITOR:-vim} env.sh
 ### QEMU
 
 ```sh
-./image.bin.create
-./image.bin.mount
+./image.bin.create.efi
+./image.bin.mount.efi
 ./10-fetch
 # Uncomment servers
 ./11-mpopul
@@ -49,7 +49,7 @@ ${EDITOR:-vim} env.sh
 # NOT in chroot
 ./49-umount
 ./image.bin.umount
-./image.qcow2.create
+./image.qcow2.create.efi
 ./image.qcow2.start
 ```
 
@@ -69,7 +69,7 @@ Assume `/dev/sdX` as installation device (e.g., USB flash drive).
 dev=/dev/sdX
 ```
 
-#### Prepare installation device (instead `image.bin.create`)
+#### Prepare installation device (instead `image.bin.create.*`)
 
 ```sh
 printf '%s\n' g n '' '' +300M t 1 n '' '' '' w | sudo fdisk -walways ${dev}
@@ -77,7 +77,7 @@ sudo mkfs.vfat -nESP -F32 ${dev}1
 sudo mkfs.btrfs -f -Linstall ${dev}2
 ```
 
-#### Mount installation device (instead `image.bin.mount`)
+#### Mount installation device (instead `image.bin.mount.*`)
 
 ```sh
 mkdir m
@@ -224,6 +224,7 @@ reboot
 | 30-initrd-full             | In chroot    |
 | 31-boot-grub-efi           | **NOT SAFE** |
 | 31-boot-grub-efi-removable | In chroot    |
+| 31-boot-grub-mbr           | In chroot    |
 | 49-umount                  | Safe         |
 | 50-system                  | **NOT SAFE** |
 | 51-user                    | **NOT SAFE** |

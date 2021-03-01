@@ -1,0 +1,33 @@
+#! /bin/bash --
+# vim: set et ts=2 sts=2 sw=2 :
+
+T="/$0" T="${T%/*}" T="${T#/}" T="${T:-.}" T="$( cd -- "$T" && pwd )" &&
+source -- "$T/lib.sh" &&
+source -- "$T/env.sh" || exit
+
+boot="$(
+    grep '[[:space:]]/boot[[:space:]]' /etc/fstab \
+    | head -n1 | sed -e's@^[[:space:]]\+@@g' -e's@[[:space:]].*$@@' || :
+)"
+swap="$(
+    grep '[[:space:]]swap[[:space:]]' /etc/fstab \
+    | head -n1 | sed -e's@^[[:space:]]\+@@g' -e's@[[:space:]].*$@@' || :
+)"
+root="$(
+    grep '[[:space:]]/[[:space:]]' /etc/fstab \
+    | head -n1 | sed -e's@^[[:space:]]\+@@g' -e's@[[:space:]].*$@@' || :
+)"
+
+cmdline=
+[[ -z "$swap" ]] || cmdline+="resume=$swap"
+[[ -n "$boot" ]] || boot="$root"
+
+dev=$( findmnt -efn -oSOURCE -- "$boot" )
+while [[ "$dev" =~ [0-9]$ ]] ; do dev="${dev::-1}" ; done
+[[ ! "$dev" =~ [0-9]p$ ]] || dev="${dev::-1}"
+
+do_patch_su /etc/default/grub "$T/i/patch/grub"
+$sudo sed -i "s@__CMDLINE__@$cmdline@" /etc/default/grub
+
+$sudo grub-install --target=i386-pc --recheck "$dev"
+$sudo grub-mkconfig -o /boot/grub/grub.cfg
