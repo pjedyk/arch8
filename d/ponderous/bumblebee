@@ -1,3 +1,0 @@
-sudo pacman -S --asdeps bumblebee nvidia opencl-mesa opencl-nvidia mesa-demos primus bbswitch
-sudo usermod -a -Gbumblebee -- "$USER"
-sudo systemctl enable bumblebeed.service
